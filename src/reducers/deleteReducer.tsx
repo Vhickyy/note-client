@@ -7,12 +7,17 @@ export type StateProps ={
     title:string,
     category:string,
     filtered:NoteProp[],
-    token:string
+    token:string,
+    note:NoteProp[]
 }
 type ActionProp = {
-    type: "GETNOTES"  | "RETRIEVE"
+    type: "GETNOTES"  | "RETRIEVE" | "SINGLENOTE"
     payload:  NoteProp[]
 }
+// type SingleProp = {
+//     type: "SINGLENOTE"
+//     payload:  NoteProp
+// }
 export const initialState: StateProps= {
     notes: [],
     deleteflag: false,
@@ -22,10 +27,11 @@ export const initialState: StateProps= {
     title:"",
     category:"all",
     filtered:[],
-    token: JSON.parse(`${localStorage.getItem("user")}`)?.token || null
+    token: JSON.parse(`${localStorage.getItem("user")}`)?.token || null,
+    note: []
 }
 type Delete = {
-    type: "DELETENOTE" | "DELETEALLNOTES" | "ERROR" | "SETID" | "SORT",
+    type: "DELETENOTE" | "DELETEALLNOTES" | "ERROR" | "SETID" | "SORT" ,
     payload: string
 }
 type All = {
@@ -46,6 +52,9 @@ export type NoteProp = {
 export const reducer = (state:typeof initialState,action:ActionProp | Delete | All | Change): typeof initialState  => {
    if(action.type === "GETNOTES"){
         return {...state,notes:action.payload,title:"",category:"all",filtered:action.payload}
+    }
+   if(action.type === "SINGLENOTE"){
+        return {...state,note:action.payload}
     }
     if(action.type === "LOADING"){
         return {...state,loading:true,error:""}

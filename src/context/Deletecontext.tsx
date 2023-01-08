@@ -14,6 +14,7 @@ type ContextProps={
     category:string,
     filtered:NoteProp[],
     token:string,
+    note:NoteProp[],
     deleteOneNote: (value:string)=>{},
     deleteAllNotes:()=>void,
     getDeletedNotes:()=>void,
@@ -23,18 +24,10 @@ type ContextProps={
     filter:()=>void,
     sort:(value:string)=>void,
     changeValue:(param: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void,
-    loadDeleteNote:()=>void
+    loadDeleteNote:()=>void,
+    singleDeletedNote:(value:string | undefined)=>void,
 }
 const initState={
-    // notes: [],
-    // deleteflag:Boolean,
-    // loading:Boolean,
-    // error:string,
-    // setID:string,
-    // title:string,
-    // category:string,
-    // filtered:NoteProp[],
-    // token:string,
     ...initialState as StateProps,
     deleteOneNote: (value:string)=>{},
     deleteAllNotes:()=>{},
@@ -45,7 +38,8 @@ const initState={
     filter:()=>{},
     sort:(value:string)=>{},
     changeValue:(param: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {},
-    loadDeleteNote:()=>{}
+    loadDeleteNote:()=>{},
+    singleDeletedNote:(value:string | undefined)=>{},
 }
 const DeleteContext = createContext<ContextProps>({} as ContextProps)
 export const DeleteContextProvider = ({children}:props) =>{
@@ -64,6 +58,10 @@ export const DeleteContextProvider = ({children}:props) =>{
             
             dispatch({type:"ERROR",payload:error.response.data.message})
         }
+    }
+    const singleDeletedNote = (id:string | undefined)=>{
+        const singleNote = state.notes.filter(note=>note._id === id)
+        return(dispatch({type:"SINGLENOTE",payload:singleNote}))
     }
     const filter = ()=>{
         dispatch({type:"FILTER"})
@@ -120,7 +118,7 @@ export const DeleteContextProvider = ({children}:props) =>{
         dispatch({type:"CHANGE",payload:param})
     }
     return (
-        <DeleteContext.Provider value={{...state,deleteOneNote,deleteAllNotes,getDeletedNotes,retrieveNote,onDelete,offDelete,filter,sort,changeValue,loadDeleteNote}}>
+        <DeleteContext.Provider value={{...state,deleteOneNote,deleteAllNotes,getDeletedNotes,retrieveNote,onDelete,offDelete,filter,sort,changeValue,loadDeleteNote,singleDeletedNote}}>
             {children}
         </DeleteContext.Provider>
     )

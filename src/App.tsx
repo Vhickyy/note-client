@@ -58,7 +58,7 @@ function App() {
             <Route path="notes" element={<Dashboard notes={notes}/>}/>
           <Route path="addnote" element={<AddNote/>}/>
           <Route path="deleted" element={<Deleted notes={notes}/>}/>
-          <Route path="singlenote/:noteid" element={<Singlenote notes={notes}/>}/>
+          <Route path="singlenote/:noteid" element={<Singlenote />}/>
           </Route>
           
         </Route>
