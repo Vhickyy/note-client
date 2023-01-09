@@ -14,10 +14,8 @@ const Deleted = ({notes}:Noteprop) => {
   },[])
   return (
     <>
-    {console.log(deleteflag)
-    }
       <Notesheader/>
-      <Notesbody deleted="deleted" notes={notes} deleteflag={deleteflag}/>
+      {deleteflag && <Notesbody deleted="deleted" notes={notes} deleteflag={deleteflag}/>}
       <Notesfooter/>
     </>
   )

@@ -16,7 +16,7 @@ type ActionProp = {
 }
 export const initialState: StateProps= {
     deletedNotes: [],
-    deleteflag: false,
+    deleteflag: true,
     loading:false,
     error:"",
     // setID:"",

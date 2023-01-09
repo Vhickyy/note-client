@@ -9,14 +9,14 @@ type Noteprop = {
 }
 const Dashboard = ({notes}:Noteprop) => {
   const {offDelete,deleteflag} = useDelete()
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     offDelete()
   },[])
   return (
     <>
       <Notesheader/>
       {/* <div className='calc'> */}
-        <Notesbody notes={notes} deleteflag={deleteflag}/>
+        {!deleteflag && <Notesbody notes={notes} deleteflag={deleteflag}/>}
       {/* </div> */}
       <Notesfooter/>
     </>
