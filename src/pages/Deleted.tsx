@@ -16,9 +16,9 @@ const Deleted = ({notes}:Noteprop) => {
   },[])
   return (
     <>
-      <Notesheader/>
-      {deleteflag && <Notesbody deleted="deleted" notes={notes} deleteflag={deleteflag}/>}
-      <Notesfooter/>
+      {deleteflag && <><Notesheader/>
+      <Notesbody deleted="deleted" notes={notes} deleteflag={deleteflag}/>
+      <Notesfooter/></>}
     </>
   )
 }
