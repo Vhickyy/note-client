@@ -11,6 +11,8 @@ const Deleted = ({notes}:Noteprop) => {
   const {deleteflag,onDelete} = useDelete()
   useLayoutEffect(()=>{
     onDelete()
+    console.log(deleteflag);
+    
   },[])
   return (
     <>

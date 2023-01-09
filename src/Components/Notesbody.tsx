@@ -98,8 +98,10 @@ const Notesbody = ({deleted, notes,deleteflag}: Noteprop) => {
     //     }
     //     console.log(deleteflag);
     // },[])
-    useEffect(()=>{
+    useLayoutEffect(()=>{
+        if(deleteflag){
             getDeletedNotes()
+        }
     },[])
     // useEffect(()=>{
     //     console.log(deleteflag);
