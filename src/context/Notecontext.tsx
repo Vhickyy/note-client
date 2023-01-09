@@ -11,10 +11,13 @@ type ContextProps={
     category:string,
     filterbackend:NoteProp[]
     getNotes: ()=>void,
-    deleteNote:(value:string)=>void,
-    editNote:(value:string)=>void,
-    setId:(value:string)=>void,
+    deleteOrEditOrAddNote:(value:string,url:string)=>void,
+    // editNote:(value:string)=>void,
+    // addNote:(value:string)=>void,
     change:(e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>)=>void,
+    singleNote:(value:string | undefined)=>void,
+    onEditFlag:()=>void,
+    offEditFlag:()=>void
 }
 const Notecontext = createContext<ContextProps>({} as ContextProps)
 type NoteProps = {
@@ -34,35 +37,56 @@ export const NotecontextProvider= ({children}:NoteProps)=>{
             dispatch({type:"ERROR",payload:error.message})
         }
     }
-    const deleteNote = async(value:string) =>{
+    const singleNote = (id:string | undefined)=>{
+        const singleNote = state.notes.filter(note=>note._id === id)
+        return(dispatch({type:"SINGLENOTE",payload:singleNote}))
+    }
+    const deleteOrEditOrAddNote = async(value:string,url:string) =>{
         dispatch({type:"LOADING"})
         try {
-            const {data}:any = await axios.delete(`/api/todo/${value}`)
+            const {data}:any = await axios.delete(url)
             console.log(data);
             dispatch({type:"LOADEND"})
         } catch (error:any) {
             dispatch({type:"ERROR",payload:error.message})
         }
     }
-    const editNote = async(value:string) =>{
-        dispatch({type:"LOADING"})
-        try {
-            const {data}:any = await axios.patch(`/api/todo/${value}`)
-            console.log(data);
-            dispatch({type:"LOADEND"})
-        } catch (error:any) {
-            dispatch({type:"LOADEND"})
-            dispatch({type:"ERROR",payload:error.message})
-        }
+    // const editNote = async(value:string) =>{
+    //     dispatch({type:"LOADING"})
+    //     try {
+    //         const {data}:any = await axios.patch(`/api/todo/${value}`)
+    //         console.log(data);
+    //         dispatch({type:"LOADEND"})
+    //     } catch (error:any) {
+    //         dispatch({type:"LOADEND"})
+    //         dispatch({type:"ERROR",payload:error.message})
+    //     }
+    // }
+    // const addNote = async(value:string) =>{
+    //     dispatch({type:"LOADING"})
+    //     try {
+    //         const {data}:any = await axios.patch(`/api/todo`)
+    //         console.log(data);
+    //         dispatch({type:"LOADEND"})
+    //     } catch (error:any) {
+    //         dispatch({type:"LOADEND"})
+    //         dispatch({type:"ERROR",payload:error.message})
+    //     }
+    // }
+    // const setId = (value:string) =>{
+    //     dispatch({type:"SETID",payload:value})
+    // }
+    const onEditFlag= () =>{
+        dispatch({type:"ONEDITFLAG"})
     }
-    const setId = (value:string) =>{
-        dispatch({type:"SETID",payload:value})
+    const offEditFlag = () =>{
+        dispatch({type:"OFFEDITFLAG"})
     }
     const change = (e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>)=>{
         dispatch({type:"CHANGE",payload:e})
     }
     return(
-        <Notecontext.Provider value={{...state,getNotes,deleteNote,setId,editNote,change}}>
+        <Notecontext.Provider value={{...state,getNotes,deleteOrEditOrAddNote,change,singleNote,onEditFlag,offEditFlag}}>
         {children}
         </Notecontext.Provider>
     )

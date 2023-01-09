@@ -1,9 +1,9 @@
 export type StateProps ={
-    notes: NoteProp[],
+    deletedNotes: NoteProp[],
     deleteflag:Boolean,
     loading:Boolean,
     error:string,
-    setID:string,
+    // setID:string,
     title:string,
     category:string,
     filtered:NoteProp[],
@@ -11,19 +11,15 @@ export type StateProps ={
     note:NoteProp[]
 }
 type ActionProp = {
-    type: "GETNOTES"  | "RETRIEVE" | "SINGLENOTE"
+    type: "GETNOTES"   | "SINGLENOTE" | "DELETE_OR_RETRIEVE_NOTE_ON_DELETE_PAGE" 
     payload:  NoteProp[]
 }
-// type SingleProp = {
-//     type: "SINGLENOTE"
-//     payload:  NoteProp
-// }
 export const initialState: StateProps= {
-    notes: [],
+    deletedNotes: [],
     deleteflag: false,
     loading:false,
     error:"",
-    setID:"",
+    // setID:"",
     title:"",
     category:"all",
     filtered:[],
@@ -31,11 +27,11 @@ export const initialState: StateProps= {
     note: []
 }
 type Delete = {
-    type: "DELETENOTE" | "DELETEALLNOTES" | "ERROR" | "SETID" | "SORT" ,
+    type:  "ERROR" | "SETID" | "SORT" ,
     payload: string
 }
 type All = {
-    type:  "DELETEALLNOTES" | "ONDELETEFLAG" | "OFFDELETEFLAG" | "LOADING" | "LOADEND" | "FILTER"
+    type:  "DELETEALLNOTES" | "ONDELETEFLAG" | "OFFDELETEFLAG" | "LOADING" | "LOADEND" | "FILTER"| "DELETEALLNOTES" | "RETRIEVE_OR_DELETE"
 }
 type Change = {
     type:"CHANGE",
@@ -51,7 +47,7 @@ export type NoteProp = {
     }
 export const reducer = (state:typeof initialState,action:ActionProp | Delete | All | Change): typeof initialState  => {
    if(action.type === "GETNOTES"){
-        return {...state,notes:action.payload,title:"",category:"all",filtered:action.payload}
+        return {...state,deletedNotes:action.payload,title:"",category:"all",filtered:action.payload}
     }
    if(action.type === "SINGLENOTE"){
         return {...state,note:action.payload}
@@ -66,7 +62,7 @@ export const reducer = (state:typeof initialState,action:ActionProp | Delete | A
         return {...state,loading:false,error:action.payload}
     }
     if(action.type === "FILTER"){
-        let temp = [...state.notes]
+        let temp = [...state.deletedNotes]
         if(state.title){
             temp = temp.filter(note=>note.title.includes(state.title))
         }
@@ -91,19 +87,16 @@ export const reducer = (state:typeof initialState,action:ActionProp | Delete | A
     if(action.type === "OFFDELETEFLAG"){
         return {...state,deleteflag:false}
     }
-   if(action.type === "DELETENOTE"){
-        const newnotes = state.notes.filter(note=>note._id !== action.payload)
-        return {...state,notes:newnotes}
+   if(action.type === "DELETE_OR_RETRIEVE_NOTE_ON_DELETE_PAGE"){
+        // const newnotes = state.deletedNotes.filter(note=>note._id !== action.payload)
+        return {...state,deletedNotes:action.payload}
     }
    if(action.type === "DELETEALLNOTES"){
-        return {...state,notes:[]}
+        return {...state,deletedNotes:[]}
     }
-    if(action.type === "SETID"){
-        return {...state,setID:action.payload}
-    }
-    if(action.type === "RETRIEVE"){
-        return {...state,notes:action.payload}
-    }
+    // if(action.type === "RETRIEVE_OR_DELETE"){
+    //     return {...state}
+    // }
     if(action.type === "CHANGE"){
         const {name,value} = action.payload.target
         return {...state,[name]:value}

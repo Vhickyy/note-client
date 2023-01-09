@@ -5,41 +5,41 @@ type props={
     children:React.ReactNode
 }
 type ContextProps={
-    notes: NoteProp[],
+    deletedNotes: NoteProp[],
     deleteflag:Boolean,
     loading:Boolean,
     error:string,
-    setID:string,
+    // setID:string,
     title:string,
     category:string,
     filtered:NoteProp[],
     token:string,
     note:NoteProp[],
-    deleteOneNote: (value:string)=>{},
+    deleteOrRetrieveOnDeletePage: (value:string,url:string)=>{},
     deleteAllNotes:()=>void,
     getDeletedNotes:()=>void,
-    retrieveNote:(value:string)=>void,
+    retrieveOrDeleteNote:(value:string)=>void,
     onDelete:()=>void,
     offDelete:()=>void,
     filter:()=>void,
     sort:(value:string)=>void,
     changeValue:(param: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void,
     loadDeleteNote:()=>void,
-    singleDeletedNote:(value:string | undefined)=>void,
+    getSingleDeletedNote:(value:string | undefined)=>void,
 }
 const initState={
     ...initialState as StateProps,
-    deleteOneNote: (value:string)=>{},
+    deleteOrRetrieveOnDeletePage: (value:string)=>{},
     deleteAllNotes:()=>{},
     getDeletedNotes:()=>{},
-    retrieveNote:(value:string)=>{},
+    retrieveOrDeleteNote:(value:string)=>{},
     onDelete:()=>{},
     offDelete:()=>{},
     filter:()=>{},
     sort:(value:string)=>{},
     changeValue:(param: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {},
     loadDeleteNote:()=>{},
-    singleDeletedNote:(value:string | undefined)=>{},
+    getSingleDeletedNote:(value:string | undefined)=>{},
 }
 const DeleteContext = createContext<ContextProps>({} as ContextProps)
 export const DeleteContextProvider = ({children}:props) =>{
@@ -51,16 +51,13 @@ export const DeleteContextProvider = ({children}:props) =>{
             dispatch({type:"GETNOTES",payload:data.note})
             dispatch({type:"LOADEND"})
             console.log(data);
-            
         } catch (error:any) {
             dispatch({type:"LOADEND"})
-            console.log(error.response.data.message);
-            
-            dispatch({type:"ERROR",payload:error.response.data.message})
+            dispatch({type:"ERROR",payload:error.message})
         }
     }
-    const singleDeletedNote = (id:string | undefined)=>{
-        const singleNote = state.notes.filter(note=>note._id === id)
+    const getSingleDeletedNote = (id:string | undefined)=>{
+        const singleNote = state.deletedNotes.filter(note=>note._id === id)
         return(dispatch({type:"SINGLENOTE",payload:singleNote}))
     }
     const filter = ()=>{
@@ -84,24 +81,24 @@ export const DeleteContextProvider = ({children}:props) =>{
     const loadDeleteNote = ()=>{
         dispatch({type:"LOADING"})
     }
-    const deleteOneNote = async (value:string) =>{
+    const deleteOrRetrieveOnDeletePage = async (value:string,url:string) =>{
         dispatch({type:"LOADING"})
         try {
-            const {data}:any = await axios.delete("/api/deleted")
+            const {data}:any = await axios.delete(url)
             console.log(data);
-            dispatch({type:"DELETENOTE",payload:value})
+            dispatch({type:"DELETE_OR_RETRIEVE_NOTE_ON_DELETE_PAGE",payload:data})
             dispatch({type:"LOADEND"})
         } catch (error:any) {
             dispatch({type:"LOADEND"})
             dispatch({type:"ERROR",payload:error.message})
         }
     }
-    const retrieveNote = async (value:string) =>{
+    const retrieveOrDeleteNote = async (url:string) =>{
          dispatch({type:"LOADING"})
         try {
-            const {data}:any =await  axios("/api/delete",{headers: {Authorization: `Bearer ${state.token}`}})
+            const {data}:any =await  axios(url,{headers: {Authorization: `Bearer ${state.token}`}})
             console.log(data);
-            dispatch({type:"RETRIEVE",payload:data})
+            // dispatch({type:"RETRIEVE_OR_DELETE"})
             dispatch({type:"LOADEND"})
         } catch (error:any) {
             dispatch({type:"LOADEND"})
@@ -118,7 +115,7 @@ export const DeleteContextProvider = ({children}:props) =>{
         dispatch({type:"CHANGE",payload:param})
     }
     return (
-        <DeleteContext.Provider value={{...state,deleteOneNote,deleteAllNotes,getDeletedNotes,retrieveNote,onDelete,offDelete,filter,sort,changeValue,loadDeleteNote,singleDeletedNote}}>
+        <DeleteContext.Provider value={{...state,deleteOrRetrieveOnDeletePage,deleteAllNotes,getDeletedNotes,retrieveOrDeleteNote,onDelete,offDelete,filter,sort,changeValue,loadDeleteNote,getSingleDeletedNote}}>
             {children}
         </DeleteContext.Provider>
     )

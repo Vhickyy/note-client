@@ -1,8 +1,15 @@
 import styled from "styled-components"
+import { useState } from "react"
 import { useNoteContext } from "../context/Notecontext"
-
+type FormStateProp={
+    title:string,
+    body:string,
+    category:string
+}
 const AddNoteForm = () => {
-    const {setId,editNote,error} = useNoteContext()
+    // const {setId,editNote,error} = useNoteContext()
+    // const trry:FormStateProp= {{title:"",body:"",category:""}}
+    // const {formState,setFormState} = useState({} as FormStateProp)
   return (
     <Wrapper>
         <p>Add Note</p>
@@ -37,7 +44,7 @@ const AddNoteForm = () => {
 
 export default AddNoteForm
 const Wrapper = styled.main`
-    height: 81.32vh;
+    height: 81.99vh;
     background-color: brown;
     padding: 1rem;
     p{

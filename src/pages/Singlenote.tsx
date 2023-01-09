@@ -10,11 +10,11 @@ import { NoteProp } from '../reducers/deleteReducer'
 //   notes: notestype
 // }
 const Singlenote = () => {
-  const {setId,deleteNote,loading,error} = useNoteContext()
-  const {loading:load,getDeletedNotes,deleteAllNotes,deleteOneNote,retrieveNote,offDelete,onDelete,notes:deletedNotes,deleteflag,singleDeletedNote,note} = useDelete();
+  const {loading,error} = useNoteContext()
+  const {loading:load,getDeletedNotes,deleteAllNotes,offDelete,onDelete,deletedNotes:deletedNotes,deleteflag,getSingleDeletedNote,note} = useDelete();
     const {noteid} = useParams()
     useEffect(()=>{
-      singleDeletedNote(noteid)
+      getSingleDeletedNote(noteid)
     },[])
   return (
     <Wrapper>
