@@ -1,4 +1,4 @@
-import {useLayoutEffect} from 'react'
+import {useLayoutEffect,useEffect} from 'react'
 import Notesbody from '../Components/Notesbody'
 import Notesfooter from '../Components/Notesfooter'
 import Notesheader from '../Components/Notesheader'
@@ -8,15 +8,15 @@ type Noteprop = {
   notes: notestype
 }
 const Dashboard = ({notes}:Noteprop) => {
-  const {offDelete} = useDelete()
-  useLayoutEffect(()=>{
+  const {offDelete,deleteflag} = useDelete()
+  useEffect(()=>{
     offDelete()
   },[])
   return (
     <>
       <Notesheader/>
       {/* <div className='calc'> */}
-        <Notesbody notes={notes}/>
+        <Notesbody notes={notes} deleteflag={deleteflag}/>
       {/* </div> */}
       <Notesfooter/>
     </>

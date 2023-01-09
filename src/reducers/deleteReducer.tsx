@@ -1,7 +1,7 @@
 export type StateProps ={
     deletedNotes: NoteProp[],
-    deleteflag:Boolean,
-    loading:Boolean,
+    deleteflag:boolean,
+    loading:boolean,
     error:string,
     // setID:string,
     title:string,

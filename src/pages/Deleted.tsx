@@ -5,17 +5,19 @@ import Notesheader from '../Components/Notesheader'
 import { useDelete } from '../context/Deletecontext'
 type notestype = {id:String,title:String,note:String}[]
 type Noteprop = {
-  notes: notestype
+  notes: notestype,
 }
 const Deleted = ({notes}:Noteprop) => {
-  const {onDelete} = useDelete()
+  const {deleteflag,onDelete} = useDelete()
   useLayoutEffect(()=>{
     onDelete()
   },[])
   return (
     <>
+    {console.log(deleteflag)
+    }
       <Notesheader/>
-      <Notesbody deleted="deleted" notes={notes}/>
+      <Notesbody deleted="deleted" notes={notes} deleteflag={deleteflag}/>
       <Notesfooter/>
     </>
   )

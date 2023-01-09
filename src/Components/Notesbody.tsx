@@ -9,12 +9,13 @@ import { NoteProp } from '../reducers/deleteReducer'
 type notestype = {id:String,title:String,note:String}[]
 type Noteprop = {
   deleted?: String,
-  notes: notestype
+  notes: notestype,
+  deleteflag:Boolean
 }
 
-const Notesbody = ({deleted, notes}: Noteprop) => {
-    const {getNotes,loading,error,notes:newnotes,title:ntitle,category:cat,change} = useNoteContext();
-    const {deleteflag,title,category,changeValue,filter,deletedNotes:page,filtered,getDeletedNotes,loading:check,error:err} = useDelete();
+const Notesbody = ({deleted, notes,deleteflag}: Noteprop) => {
+    const {getNotes,loading,error,notes:nNotes,title:n_title,category:n_category,change} = useNoteContext();
+    const {title:d_title,category:d_category,changeValue,filter,deletedNotes:page,filtered,getDeletedNotes,loading:check,error:err,loadDeleteNote} = useDelete();
     // console.log(err);
     // console.log(check);
     useEffect(()=>{
@@ -58,14 +59,14 @@ const Notesbody = ({deleted, notes}: Noteprop) => {
         if(deleteError){
             return ifErr(deleteError)
         }
-        if(len?.length){
+        if(len.length){
             if(param.length){
                 console.log(param);
                 return ifData(param)
             }else return (
                 <h1>No match found</h1>
             )
-        }else if(!len?.length){
+        }else if(!len.length){
             return (
             <p>No NOTE</p>
             )
@@ -90,17 +91,28 @@ const Notesbody = ({deleted, notes}: Noteprop) => {
             )
         }
     }
-    useLayoutEffect(()=>{
-        getDeletedNotes()
+    // useLayoutEffect(()=>{
+    //     if(deleteflag){
+    //         loadDeleteNote()
+    //         console.log('g');
+    //     }
+    //     console.log(deleteflag);
+    // },[])
+    useEffect(()=>{
+            getDeletedNotes()
+            console.log(deleteflag);
     },[])
+    // useEffect(()=>{
+    //     console.log(deleteflag);
+    // },[])
     useEffect(()=>{
         console.log(filtered);
-    },[title,category])
+    },[d_title,d_category])
   return (
     <Wrapper>
         <div>
             {/* Form */}
-            {deleteflag ? <NoteForm title={title} category={category} changeValue={changeValue} deleteflag={deleteflag} filter={filter}/> : <NoteForm title={ntitle} category={cat} changeValue={change} deleteflag={deleteflag} filter={filter}/>}
+            {deleteflag ? <NoteForm title={d_title} category={d_category} changeValue={changeValue} deleteflag={deleteflag} filter={filter}/> : <NoteForm title={n_title} category={n_category} changeValue={change} deleteflag={deleteflag} filter={filter}/>}
         </div>
         
         {/* Body */}
@@ -109,31 +121,7 @@ const Notesbody = ({deleted, notes}: Noteprop) => {
             {deletemap(page,check,filtered,err)}
         </div>
         : <p>Another page</p>}
-        {/* {check && <p>loading</p>} */}
-        {/* {page.length ? <div className='flex'>
-            {filtered.length ? filtered.map((note)=>{
-            return(
-                <div key={note._id} className="note">
-                    <Link to={`/singlenote/${note._id}`}>
-                    <h3>{note.title.length <= 20 ? note.title : `${note.title.slice(0,23)}...`}</h3>
-                    <p>{note.note.slice(0,105)}...</p>
-                    </Link>
-                </div>
-            )
-        }) : <p>No match found</p>}
-            
-        </div> : <div><p>No note</p></div>} */}
-        <>
-        {/* {notes.map((note)=>{
-            return(
-                <div  className="note">
-                    <Link to={`/singlenote/${note.id}`}>
-                    <h3>{note.title.length <= 20 ? note.title : `${note.title.slice(0,23)}...`}</h3>
-                    <p>{note.note.slice(0,105)}...</p>
-                    </Link>
-                </div>
-            )})} */}
-        </>
+       
     </Wrapper>
    
   )
@@ -178,3 +166,30 @@ const Wrapper = styled.div`
         color: black;
     }
 `
+
+
+ {/* {check && <p>loading</p>} */}
+        {/* {page.length ? <div className='flex'>
+            {filtered.length ? filtered.map((note)=>{
+            return(
+                <div key={note._id} className="note">
+                    <Link to={`/singlenote/${note._id}`}>
+                    <h3>{note.title.length <= 20 ? note.title : `${note.title.slice(0,23)}...`}</h3>
+                    <p>{note.note.slice(0,105)}...</p>
+                    </Link>
+                </div>
+            )
+        }) : <p>No match found</p>}
+            
+        </div> : <div><p>No note</p></div>} */}
+        <>
+        {/* {notes.map((note)=>{
+            return(
+                <div  className="note">
+                    <Link to={`/singlenote/${note.id}`}>
+                    <h3>{note.title.length <= 20 ? note.title : `${note.title.slice(0,23)}...`}</h3>
+                    <p>{note.note.slice(0,105)}...</p>
+                    </Link>
+                </div>
+            )})} */}
+        </>

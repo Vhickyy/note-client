@@ -14,6 +14,7 @@ import axios from "axios";
 import { useAuth } from "./context/Authcontext";
 import Shared from "./pages/Shared";
 import { useNoteContext } from "./context/Notecontext";
+import { useDelete } from "./context/Deletecontext";
 
 type bodyProps={
     name:String,
@@ -24,6 +25,7 @@ function App() {
   const [data,setData] = useState(notes);
   const {logout,registerUser,loginUser} = useAuth();
   const {getNotes} = useNoteContext()
+  const {onDelete,offDelete} = useDelete()
   
   // useEffect(()=>{
   //   registerUser({name:"jj",email:"jj@gmail.com",password:'secret'})
@@ -55,7 +57,7 @@ function App() {
           <Route path="/" element={<Protected>
             <Shared/>
           </Protected>}>
-            <Route path="notes" element={<Dashboard notes={notes}/>}/>
+            <Route path="notes" element={<Dashboard notes={notes} />}/>
           <Route path="addnote" element={<AddNote/>}/>
           <Route path="deleted" element={<Deleted notes={notes}/>}/>
           <Route path="singlenote/:noteid" element={<Singlenote />}/>

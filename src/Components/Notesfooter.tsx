@@ -12,10 +12,10 @@ const Notesfooter = () => {
   // },[])
   return (
     <Wrapper>
-        <button onClick={()=>offDelete()}><Link to={"/notes"}><FaNotesMedical/></Link></button>
+        <button ><Link to={"/notes"} onClick={offDelete}><FaNotesMedical/></Link></button>
         <button><Link to={"/addnote"}><FaPlus/></Link></button>
         <button><FaNotesMedical/></button>
-        <button onClick={()=>onDelete()}><Link to={"/deleted"}><FaTrash/></Link></button>
+        <button><Link to={"/deleted"} onClick={onDelete}><FaTrash/></Link></button>
         
     </Wrapper>
   )
