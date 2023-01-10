@@ -8,7 +8,10 @@ export type StateProps ={
     category:string,
     count:String,
     filterbackend:NoteProp[],
-    note:NoteProp[]
+    note:NoteProp[],
+    addTitle:string,
+    addCategory:string,
+    addBody:string,
 }
 export const initialState: StateProps= {
     notes: [],
@@ -20,6 +23,9 @@ export const initialState: StateProps= {
     category:"all",
     filterbackend:[],
     note: [],
+    addTitle:'',
+    addCategory:'',
+    addBody:'',
     count:"1"
 }
 export type NoteProp = {
@@ -39,17 +45,25 @@ type SingleProp = {
     payload:NoteProp[]
 }
 type Loading = {
-    type:"LOADING" | "LOADEND" | "ONEDITFLAG" | "OFFEDITFLAG"
+    type:"LOADING" | "LOADEND"  | "OFFEDITFLAG"
+}
+type OnEdit = {
+    type:"ONEDITFLAG",
+    payload:{
+        title:string,
+        note:string,
+        category:string
+    }
 }
 type Edit = {
     type:  "SETID" | "ERROR",
     payload: string
 }
 type Change = {
-    type:"CHANGE",
+    type:"CHANGE"
     payload:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
 }
-export const reducer =(state:typeof initialState,action:ActionProp | Loading | Edit | Change | SingleProp): typeof initialState =>{
+export const reducer =(state:typeof initialState,action:ActionProp | Loading | Edit | Change | SingleProp | OnEdit): typeof initialState =>{
    if(action.type === "GETNOTES"){
         return {...state,notes:action.payload.notes,filterbackend:action.payload.filtered,editFlag:false,loading:false}
     }
@@ -76,11 +90,14 @@ export const reducer =(state:typeof initialState,action:ActionProp | Loading | E
         return {...state,note:action.payload}
     }
     if(action.type === "ONEDITFLAG"){
-        return {...state,editFlag:true}
+        return {...state,editFlag:true,addTitle:action.payload.title,addBody:action.payload.note,addCategory:action.payload.category}
     }
     if(action.type === "OFFEDITFLAG"){
         return {...state,editFlag:false}
     }
+    // if(action.type === "ADD_FORM_EDIT"){
+    //     return {...state,addTitle:action.payload.title,addBody:action.payload.note,addCategory:action.payload.category}
+    // }
     //add,delete,edit,retrieve,permanentdelete,deleteall
     return state;
 }

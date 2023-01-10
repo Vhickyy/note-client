@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 import styled from 'styled-components'
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useDelete } from '../context/Deletecontext'
 import { useNoteContext } from '../context/Notecontext'
 import { NoteProp } from '../reducers/deleteReducer'
@@ -12,6 +12,7 @@ import { NoteProp } from '../reducers/deleteReducer'
 const Singlenote = () => {
   const {loading,error} = useNoteContext()
   const {loading:load,getDeletedNotes,deleteAllNotes,offDelete,onDelete,deletedNotes:deletedNotes,deleteflag,getSingleDeletedNote,note} = useDelete();
+  const navigate = useNavigate()
     const {noteid} = useParams()
     useEffect(()=>{
       getSingleDeletedNote(noteid)
@@ -20,8 +21,8 @@ const Singlenote = () => {
     <Wrapper>
       <h1>{note[0].title}</h1>
       <p>{note[0].note}</p>
-      {deleteflag ? <Link to={"/dashboard/addnote"}><button>Retrieve</button></Link> : <Link to={"/dashboard/addnote"}><button>Edit</button></Link>}
-      <button>delete</button>
+      {deleteflag ? <button onClick={()=>navigate('/deleted')}>Retrieve</button> : <button onClick={()=>navigate('/addnote')}>Edit</button>}
+      <button onClick={()=>deleteflag ? navigate('/deleted') : navigate('/notes')}>delete</button>
     </Wrapper>
   )
 }

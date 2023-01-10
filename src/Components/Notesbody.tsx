@@ -15,7 +15,7 @@ type Noteprop = {
 
 const Notesbody = ({deleted, notes,deleteflag}: Noteprop) => {
     const {getNotes,loading,error,notes:nNotes,title:n_title,category:n_category,change} = useNoteContext();
-    const {title:d_title,category:d_category,changeValue,filter,deletedNotes:page,filtered,getDeletedNotes,loading:check,error:err,loadDeleteNote,onDelete} = useDelete();
+    const {title:d_title,category:d_category,changeValue,filter,deletedNotes:page,filtered,getDeletedNotes,loading:check,error:err,loadDeleteNote,offDelete} = useDelete();
     // console.log(err);
     // console.log(check);
     useEffect(()=>{
@@ -91,21 +91,11 @@ const Notesbody = ({deleted, notes,deleteflag}: Noteprop) => {
             )
         }
     }
-    // useLayoutEffect(()=>{
-    //     if(deleteflag){
-    //         loadDeleteNote()
-    //         console.log('g');
-    //     }
-    //     console.log(deleteflag);
-    // },[])
     useLayoutEffect(()=>{
         if(deleteflag){
             getDeletedNotes()
         }
     },[])
-    // useEffect(()=>{
-    //     console.log(deleteflag);
-    // },[])
     useEffect(()=>{
         console.log(filtered);
     },[d_title,d_category])

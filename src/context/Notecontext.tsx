@@ -2,6 +2,11 @@ import { createContext, useContext, useReducer } from "react";
 import { reducer,initialState, NoteProp, StateProps} from "../reducers/noteReducer";
 import axios from "axios";
 import { useAuth } from "./Authcontext";
+type Params={
+        title:string,
+        note:string,
+        category:string
+    }
 type ContextProps={
     notes: NoteProp[],
     setID:String,
@@ -16,7 +21,7 @@ type ContextProps={
     // addNote:(value:string)=>void,
     change:(e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>)=>void,
     singleNote:(value:string | undefined)=>void,
-    onEditFlag:()=>void,
+    onEditFlag:({title,note,category}:Params)=>void,
     offEditFlag:()=>void
 }
 const Notecontext = createContext<ContextProps>({} as ContextProps)
@@ -76,8 +81,8 @@ export const NotecontextProvider= ({children}:NoteProps)=>{
     // const setId = (value:string) =>{
     //     dispatch({type:"SETID",payload:value})
     // }
-    const onEditFlag= () =>{
-        dispatch({type:"ONEDITFLAG"})
+    const onEditFlag= ({title,note,category}:Params) =>{
+        dispatch({type:"ONEDITFLAG",payload:{title,note,category}})
     }
     const offEditFlag = () =>{
         dispatch({type:"OFFEDITFLAG"})

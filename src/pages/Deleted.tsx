@@ -9,7 +9,7 @@ type Noteprop = {
 }
 const Deleted = ({notes}:Noteprop) => {
   const {deleteflag,onDelete} = useDelete()
-  useLayoutEffect(()=>{
+  useEffect(()=>{
     onDelete()
     console.log(deleteflag);
     
