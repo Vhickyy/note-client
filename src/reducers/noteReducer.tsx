@@ -61,7 +61,7 @@ type Edit = {
 }
 type Change = {
     type:"CHANGE"
-    payload:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
+    payload:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement> 
 }
 export const reducer =(state:typeof initialState,action:ActionProp | Loading | Edit | Change | SingleProp | OnEdit): typeof initialState =>{
    if(action.type === "GETNOTES"){
@@ -83,9 +83,7 @@ export const reducer =(state:typeof initialState,action:ActionProp | Loading | E
         return {...state,setID:action.payload}
     }
     if(action.type === "CHANGE"){
-        const {name,value} = action.payload.target
-        console.log(name,value);
-        
+        const {name,value} = action.payload.target;
         return {...state,[name]:value}
     }
     if(action.type === "SINGLENOTE"){

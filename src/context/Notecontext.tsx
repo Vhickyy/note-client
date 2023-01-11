@@ -23,7 +23,7 @@ type ContextProps={
     editNote:(value:string)=>void,
     addNote:()=>void,
     deleteAllNotes:()=>void,
-    change:(e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> ) =>void,
+    change:(e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> |React.ChangeEvent<HTMLTextAreaElement> ) =>void,
     singleNote:(value:string | undefined)=>void,
     onEditFlag:({title,note,category}:Params)=>void,
     offEditFlag:()=>void
@@ -101,9 +101,12 @@ export const NotecontextProvider= ({children}:NoteProps)=>{
     const offEditFlag = () =>{
         dispatch({type:"OFFEDITFLAG"})
     }
-    const change = (e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>)=>{
+    const change = (e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>)=>{
         dispatch({type:"CHANGE",payload:e})
     }
+    // const text_change = (e:React.ChangeEvent<HTMLTextAreaElement>)=>{
+    //     dispatch({type:"TEXT_CHANGE"},payload:e)
+    // }
     return(
         <Notecontext.Provider value={{...state,getNotes,deleteOneNote,addNote,editNote,change,singleNote,onEditFlag,offEditFlag,deleteAllNotes}}>
         {children}

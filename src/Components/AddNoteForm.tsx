@@ -17,12 +17,12 @@ const AddNoteForm = () => {
             <div className="flex">
                 <div className="addTitle">
                     <label htmlFor="title" className="label">Title:</label>
-                    <input type="text" id="title" name="title" placeholder="Add Title" value={addTitle} onChange={change}/>
+                    <input type="text" id="title" name="addTitle" placeholder="Add Title" value={addTitle} onChange={change}/>
                 </div>
                 <div className="flex2">
                      <div>
                     <label htmlFor="category">Category:</label>
-                    <select name="category" id="category" value={addCategory} onChange={change}>
+                    <select name="addCategory" id="category" value={addCategory} onChange={change}>
                         <option value="Uncategorized">Uncategorized</option>
                         <option value="personal">Personal</option>
                         <option value="work">Work</option>
@@ -35,7 +35,7 @@ const AddNoteForm = () => {
             
             <div>
                 <label htmlFor="notes"></label>
-                <textarea name="notes" id="notes" placeholder="Enter Text" value={addBody} ></textarea>
+                <textarea name="addBody" id="notes" placeholder="Enter Text" value={addBody} onChange={change}></textarea>
             </div>
         </form>
     </Wrapper>
