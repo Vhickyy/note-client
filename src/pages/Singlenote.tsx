@@ -15,7 +15,7 @@ const Singlenote = () => {
   const navigate = useNavigate()
     const {noteid} = useParams()
     useEffect(()=>{
-      getSingleDeletedNote(noteid)
+      getSingleDeletedNote(noteid);
     },[])
   return (
     <Wrapper>

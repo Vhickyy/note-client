@@ -1,15 +1,15 @@
 import styled from "styled-components"
 import { useState } from "react"
 import { useNoteContext } from "../context/Notecontext"
-type FormStateProp={
-    title:string,
-    body:string,
-    category:string
-}
+// type FormStateProp={
+//     title:string,
+//     body:string,
+//     category:string
+// }
 const AddNoteForm = () => {
-    // const {setId,editNote,error} = useNoteContext()
-    // const trry:FormStateProp= {{title:"",body:"",category:""}}
-    // const {formState,setFormState} = useState({} as FormStateProp)
+    const {addTitle,addCategory,addBody,change} = useNoteContext()
+    // const trry: FormStateProp = {title:"",body:"",category:""}
+    // const {formState,setFormState} = useState(trry)
   return (
     <Wrapper>
         <p>Add Note</p>
@@ -17,12 +17,12 @@ const AddNoteForm = () => {
             <div className="flex">
                 <div className="addTitle">
                     <label htmlFor="title" className="label">Title:</label>
-                    <input type="text" id="title" name="title" placeholder="Add Title"/>
+                    <input type="text" id="title" name="title" placeholder="Add Title" value={addTitle} onChange={change}/>
                 </div>
                 <div className="flex2">
                      <div>
                     <label htmlFor="category">Category:</label>
-                    <select name="category" id="category">
+                    <select name="category" id="category" value={addCategory} onChange={change}>
                         <option value="Uncategorized">Uncategorized</option>
                         <option value="personal">Personal</option>
                         <option value="work">Work</option>
@@ -35,7 +35,7 @@ const AddNoteForm = () => {
             
             <div>
                 <label htmlFor="notes"></label>
-                <textarea name="notes" id="notes" placeholder="Enter Text"></textarea>
+                <textarea name="notes" id="notes" placeholder="Enter Text" value={addBody} ></textarea>
             </div>
         </form>
     </Wrapper>

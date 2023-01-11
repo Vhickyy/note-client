@@ -19,7 +19,7 @@ const Notesbody = ({deleted, notes,deleteflag}: Noteprop) => {
     // console.log(err);
     // console.log(check);
     useEffect(()=>{
-        console.log(filtered);
+        // console.log(filtered);
     },[])
     const ifLoad = (load:Boolean)=>{
         if(load){

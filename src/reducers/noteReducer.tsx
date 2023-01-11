@@ -84,6 +84,8 @@ export const reducer =(state:typeof initialState,action:ActionProp | Loading | E
     }
     if(action.type === "CHANGE"){
         const {name,value} = action.payload.target
+        console.log(name,value);
+        
         return {...state,[name]:value}
     }
     if(action.type === "SINGLENOTE"){
